@@ -3,6 +3,7 @@ const { PutObjectCommand, S3Client } = require("@aws-sdk/client-s3");
 const { GetObjectCommand } = require("@aws-sdk/client-s3");
 const wardrobeServices = require("../services/wardrobeService.js");
 const wardrobeQueries = require("../db/queries/wardrobeQueries.js");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 const wardrobeBucketName = process.env.WARDROBE_BUCKET_NAME;
 const wardrobeBucketRegion = process.env.WARDROBE_BUCKET_REGION;
@@ -53,22 +54,25 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
     res.send({});
 };
 
-/*
 exports.getAllWardrobeClothingItems = async (req, res) => {
     //add user id - temporary - chagne after adding verification
     req.body.userId = "1";
     console.log("req.body", req.body);
+
     wardrobeClothingItems = await wardrobeQueries.fetchAllWardrobeClothingItems(
         req.body.userId
     );
-    
-    
-    for (const item of wardrobeClothingItems){
+
+    for (const item of wardrobeClothingItems) {
+        s3ImageKey = item.s3_image_key;
         const getObjectParams = {
             Bucket: wardrobeBucketName,
-            Key: item.image_url
-        }
-        const command = new GetObjectCommand()
+            Key: s3ImageKey,
+        };
+        const command = new GetObjectCommand(getObjectParams);
+        const url = await getSignedUrl(s3, command, { expiresIn: 600 });
+        item.imageUrl = url;
     }
+
+    res.send(wardrobeClothingItems);
 };
-*/

@@ -10,10 +10,10 @@ const upload = multer({ storage: storage });
 const {
     getNewWardrobeClothingItemForm,
     postNewWardrobeClothingItem,
-    //getAllWardrobeClothingItems,
+    getAllWardrobeClothingItems,
 } = require("../controllers/wardrobeController.js");
 
-//wardrobeRouter.get("/", getAllWardrobeClothingItems);
+wardrobeRouter.get("/", getAllWardrobeClothingItems);
 
 wardrobeRouter.get("/new", getNewWardrobeClothingItemForm);
 
