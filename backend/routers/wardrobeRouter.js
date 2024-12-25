@@ -7,14 +7,21 @@ const wardrobeRouter = Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+const {
+    getNewWardrobeClothingItemForm,
+    postNewWardrobeClothingItem,
+    //getAllWardrobeClothingItems,
+} = require("../controllers/wardrobeController.js");
 
-const {getNewClothingItemForm, postNewClothingItem} = require("../controllers/wardrobeController.js")
+//wardrobeRouter.get("/", getAllWardrobeClothingItems);
 
-//wardrobeRouter.get("/", getAllClothingItems)
+wardrobeRouter.get("/new", getNewWardrobeClothingItemForm);
 
-wardrobeRouter.get("/new", getNewClothingItemForm);
-
-wardrobeRouter.post("/new", upload.single('newClothingImage'), postNewClothingItem);
+wardrobeRouter.post(
+    "/new",
+    upload.single("newClothingImage"),
+    postNewWardrobeClothingItem
+);
 
 //wardrobeRouter.patch("/:id", patchClothingItem);
 

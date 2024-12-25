@@ -15,11 +15,11 @@ exports.getClothingCategory = async (category) => {
     }
 
     console.log("Cache miss");
-    clothingCategoryId = wardrobeQueries.getClothingItemCategoryId(category);
+    clothingCategoryId = wardrobeQueries.fetchWardrobeClothingItemCategoryId(category);
     clothingCategoryCache.set(category, clothingCategoryId);
     console.log(clothingCategoryCache.keys());
     return clothingCategoryId;
 };
 
-exports.getRandomClothingImageName = (bytes = 32) =>
+exports.getRandomClothingS3ImageKey = (bytes = 32) =>
     crypto.randomBytes(bytes).toString("hex");
