@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>New Clothes!</title>
+    </head>
+    <body>
+        <h1>New Clothes!</h1>
+        <form action="/wardrobe/new" method="POST" enctype="multipart/form-data">
+            <label for="file">Upload the image of the new clothing:</label>
+            <input
+                type="file"
+                id="newClothingImage"
+                name="newClothingImage"
+                accept=".jpg, .jpeg, .png"
+                required
+            />
+            <label for="name">Name/Description:</label>
+            <input type="text" name="name" id="name" required />
+            <label for="category">Category:</label>
+            <input type="text" name="category" id="category" required />
+            <button type="submit">Add new clothing to the wardrobe!</button>
+        </form>
+        <a href="/wardrobe">Back to Wardrobe</a>
+    </body>
+</html>
