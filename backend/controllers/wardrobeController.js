@@ -76,3 +76,20 @@ exports.getAllWardrobeClothingItems = async (req, res) => {
 
     res.send(wardrobeClothingItems);
 };
+
+//note: need new description in the request!
+exports.patchWardrobeClothingItem = async (req, res) => {
+    //add user id - temporary - chagne after adding verification
+    req.body.userId = "1";
+    //add clothing description - temporary - prob there will be a form later for inputting
+    req.body.clothingId = req.params.id;
+    req.body.newClothingDescription = req.query.newClothingDescription;
+    console.log("req.body", req.body);
+    const { clothingId, newClothingDescription } = req.body;
+    await wardrobeQueries.updateWardrobeClothingItems(
+        clothingId,
+        newClothingDescription
+    );
+
+    res.send(req.body);
+};

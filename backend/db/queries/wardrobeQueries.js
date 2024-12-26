@@ -15,7 +15,6 @@ exports.insertNewWardrobeClothingItem = async ({
     );
 };
 
-
 exports.fetchWardrobeClothingItemCategoryId = async (category) => {
     const results = await pool.query(
         `SELECT category_id FROM ${CLOTHING_CATEGORY_TABLE} WHERE name=$1`,
@@ -24,11 +23,20 @@ exports.fetchWardrobeClothingItemCategoryId = async (category) => {
     return results.rows[0].category_id;
 };
 
-
 exports.fetchAllWardrobeClothingItems = async (userId) => {
     const results = await pool.query(
         `SELECT * From ${WARDROBE_TABLE} WHERE user_id=$1`,
         [userId]
     );
     return results.rows;
+};
+
+exports.updateWardrobeClothingItems = async (
+    clothingId,
+    newClothingDescription
+) => {
+    await pool.query(
+        `UPDATE ${WARDROBE_TABLE} SET description=$1 WHERE clothing_id=$2`,
+        [newClothingDescription, clothingId]
+    );
 };
