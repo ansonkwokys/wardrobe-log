@@ -40,3 +40,17 @@ exports.updateWardrobeClothingItems = async (
         [newClothingDescription, clothingId]
     );
 };
+
+exports.fetchWardrobeClothingItemS3ImageKeyByClothingId = async (clothingId) => {
+    const results = await pool.query(
+        `SELECT s3_image_key FROM ${WARDROBE_TABLE} WHERE clothing_id=$1`,
+        [clothingId]
+    );
+    return results.rows[0].s3_image_key;
+};
+
+exports.removeWardrobeClothingItemByClothingId = async (clothingId) => {
+    await pool.query(`DELETE FROM ${WARDROBE_TABLE} WHERE clothing_id=$1`, [
+        clothingId,
+    ]);
+};

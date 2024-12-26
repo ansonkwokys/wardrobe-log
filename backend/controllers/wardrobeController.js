@@ -1,6 +1,10 @@
 require("dotenv").config();
-const { PutObjectCommand, S3Client } = require("@aws-sdk/client-s3");
-const { GetObjectCommand } = require("@aws-sdk/client-s3");
+const {
+    PutObjectCommand,
+    GetObjectCommand,
+    S3Client,
+    DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
 const wardrobeServices = require("../services/wardrobeService.js");
 const wardrobeQueries = require("../db/queries/wardrobeQueries.js");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
@@ -65,11 +69,11 @@ exports.getAllWardrobeClothingItems = async (req, res) => {
 
     for (const item of wardrobeClothingItems) {
         s3ImageKey = item.s3_image_key;
-        const getObjectParams = {
+        const getWardrobeClothingParams = {
             Bucket: wardrobeBucketName,
             Key: s3ImageKey,
         };
-        const command = new GetObjectCommand(getObjectParams);
+        const command = new GetObjectCommand(getWardrobeClothingParams);
         const url = await getSignedUrl(s3, command, { expiresIn: 600 });
         item.imageUrl = url;
     }
@@ -91,5 +95,27 @@ exports.patchWardrobeClothingItem = async (req, res) => {
         newClothingDescription
     );
 
+    res.send(req.body);
+};
+
+exports.deleteWardrobeClothingItem = async (req, res) => {
+    //add user id - temporary - chagne after adding verification
+    req.body.userId = "1";
+    //add clothing description - temporary - prob there will be a form later for inputting
+    req.body.clothingId = req.params.id;
+
+    const { clothingId } = req.body;
+    s3ImageKey =
+        await wardrobeQueries.fetchWardrobeClothingItemS3ImageKeyByClothingId(
+            clothingId
+        );
+    const deleteImageParams = {
+        Bucket: wardrobeBucketName,
+        Key: s3ImageKey,
+    };
+    
+    deleteImageCommand = new DeleteObjectCommand(deleteImageParams);
+    await s3.send(deleteImageCommand);
+    await wardrobeQueries.removeWardrobeClothingItemByClothingId(clothingId);
     res.send(req.body);
 };

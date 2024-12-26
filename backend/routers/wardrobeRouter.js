@@ -12,6 +12,7 @@ const {
     postNewWardrobeClothingItem,
     getAllWardrobeClothingItems,
     patchWardrobeClothingItem,
+    deleteWardrobeClothingItem
 } = require("../controllers/wardrobeController.js");
 
 wardrobeRouter.get("/", getAllWardrobeClothingItems);
@@ -26,6 +27,6 @@ wardrobeRouter.post(
 
 wardrobeRouter.patch("/:id", patchWardrobeClothingItem);
 
-//wardrobeRouter.delete("/:id", deleteClothingItem);
+wardrobeRouter.delete("/:id", deleteWardrobeClothingItem);
 
 module.exports = wardrobeRouter;
