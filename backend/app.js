@@ -1,9 +1,11 @@
 const express = require("express");
 const path = require('node:path');
 const app = express();
+const cors = require("cors");
 const PORT = 3000;
 const wardrobeRouter = require("./routers/wardrobeRouter");
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
