@@ -9,7 +9,7 @@ function App() {
         <BrowserRouter className="app-container">
             <NavBarOrNot />
             <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/wardrobe" element={<Wardrobe />} />
             </Routes>
         </BrowserRouter>
@@ -18,7 +18,7 @@ function App() {
 
 function NavBarOrNot() {
     const location = useLocation();
-    return location.pathname !== "/" && <NavBar className="nav-bar" />;
+    return (location.pathname == "/wardrobe") && <NavBar className="nav-bar"/>;
 }
 
 export default App;
