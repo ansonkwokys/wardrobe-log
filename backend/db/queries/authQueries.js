@@ -27,4 +27,13 @@ exports.insertNewUser = async (
     return;
 };
 
-exports
+exports.fetchUserWithUserId = async (userId) => {
+    const results = await pool.query(
+        `SELECT * FROM ${USERS_TABLE} WHERE user_id=$1`,
+        [userId]
+    );
+    if (results.rowCount === 0) {
+        return null;
+    }
+    return results.rows[0];
+}

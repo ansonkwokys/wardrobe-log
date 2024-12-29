@@ -41,7 +41,13 @@ passport.serializeUser((profile, done) => {
 });
 
 passport.deserializeUser(async (userId, done) => {
-    
-
-module.exports = passport;
-
+    try {
+        user = await authQueries.fetchUserWithUserId(userId);
+        if (!user) {
+            return done(new Error("User not found"));
+        }
+        done(null, user);
+    } catch (err) {
+        done(err);
+    }
+});
