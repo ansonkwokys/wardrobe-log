@@ -1,7 +1,7 @@
 const pool = require("../pool");
 const USERS_TABLE = "users";
 
-exports.fetchUserIdfromGoogleProfile = async (email) => {
+exports.fetchUserIdwithGoogleProfile = async (email) => {
     const results = await pool.query(
         `SELECT user_id FROM ${USERS_TABLE} WHERE email=$1`,
         [email]
@@ -26,3 +26,5 @@ exports.insertNewUser = async (
     );
     return;
 };
+
+exports

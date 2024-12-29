@@ -12,7 +12,7 @@ passport.use(
         },
         async function (request, accessToken, refreshToken, profile, done) {
             console.log("Google Profile: ", profile);
-            let userId = await authQueries.fetchUserIdfromGoogleProfile(
+            let userId = await authQueries.fetchUserIdwithGoogleProfile(
                 profile._json.email
             );
             if (userId === null) {
@@ -25,7 +25,7 @@ passport.use(
                     sub,
                     picture
                 );
-                userId = await authQueries.fetchUserIdfromGoogleProfile(
+                userId = await authQueries.fetchUserIdwithGoogleProfile(
                     profile._json.email
                 );
             }
@@ -34,6 +34,14 @@ passport.use(
         }
     )
 );
+
+passport.serializeUser((profile, done) => {
+    let userId = profile.user_id;
+    done(null, userId);
+});
+
+passport.deserializeUser(async (userId, done) => {
+    
 
 module.exports = passport;
 
