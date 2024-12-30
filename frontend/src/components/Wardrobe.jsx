@@ -9,7 +9,7 @@ export default function Wardrobe() {
     useEffect(() => {
         fetch("http://localhost:3000/wardrobe")
             .then((response) => response.json())
-            .then((data) => setWardrobeClothingList(data))
+            .then((data) => {setWardrobeClothingList(data)})
             .catch((error) => console.error(error));
     }, []);
 
@@ -21,12 +21,13 @@ export default function Wardrobe() {
             </div>
             <div className="wardrobe-card-container">
                 {wardrobeClothingList.map((item) => (
-                    <WardrobeClothingCard
-                        key={item.id}
-                        description={item.description}
-                        status={item.status}
-                        imageUrl={item.imageUrl}
-                    />
+                    <div key={item.clothing_id}>
+                        <WardrobeClothingCard
+                            description={item.description}
+                            status={item.status}
+                            imageUrl={item.imageUrl}
+                        />
+                    </div>
                 ))}
             </div>
         </div>
