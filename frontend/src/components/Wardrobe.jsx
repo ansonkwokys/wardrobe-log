@@ -6,15 +6,12 @@ import "./Wardrobe.css";
 export default function Wardrobe() {
     const [wardrobeClothingList, setWardrobeClothingList] = useState([]);
 
-    
     useEffect(() => {
         fetch("http://localhost:3000/wardrobe")
             .then((response) => response.json())
             .then((data) => setWardrobeClothingList(data))
             .catch((error) => console.error(error));
     }, []);
-    
-    
 
     return (
         <div className="wardrobe-container">
@@ -23,16 +20,6 @@ export default function Wardrobe() {
                 <button>Add Clothing</button>
             </div>
             <div className="wardrobe-card-container">
-                <WardrobeClothingCard
-                    description="Levi's Jeans"
-                    status="wardrobe"
-                    imageUrl="https://lsco.scene7.com/is/image/lsco/005010193-back-pdp-ld?fmt=jpeg&qlt=70&resMode=sharp2&fit=crop,1&op_usm=0.6,0.6,8&wid=2000&hei=1840"
-                />
-                <WardrobeClothingCard
-                    description="Chanel Long Sleeve T-shirt"
-                    status="laundry basket"
-                    imageUrl="https://upload.wikimedia.org/wikipedia/commons/5/52/Adele_for_Vogue_in_2021.png"
-                />
                 {wardrobeClothingList.map((item) => (
                     <WardrobeClothingCard
                         key={item.id}
