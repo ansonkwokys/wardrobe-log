@@ -42,14 +42,13 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
     const imageToS3Command = new PutObjectCommand(imageToS3Params);
     await s3.send(imageToS3Command);
 
-    //add user id - temporary - change after adding verification
+    //add user id - temporary - change after adding verification - fixed
     const { description, category } = req.body;
-    req.body.userId = "1";
     req.body.categoryId = await wardrobeServices.getClothingCategory(category);
     req.body.s3ImageKey = newClothingImageS3ImageKey;
     console.log("req.body, 2nd", req.body);
     await wardrobeQueries.insertNewWardrobeClothingItem({
-        userId: req.body.userId,
+        userId: req.session.passport.user,
         clothingDescription: description,
         clothingCategoryId: req.body.categoryId,
         s3ImageKey: req.body.s3ImageKey,
@@ -59,12 +58,13 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
 };
 
 exports.getAllWardrobeClothingItems = async (req, res) => {
-    //add user id - temporary - chagne after adding verification
+    //add user id - temporary - chagne after adding verification - fixed
     req.body.userId = "1";
-    console.log("req.body", req.body);
+    console.log("req.session", req.session);
+    console.log("req.session.id", req.session.id);
 
     wardrobeClothingItems = await wardrobeQueries.fetchAllWardrobeClothingItems(
-        req.body.userId
+        req.session.passport.user
     );
 
     for (const item of wardrobeClothingItems) {
@@ -113,7 +113,7 @@ exports.deleteWardrobeClothingItem = async (req, res) => {
         Bucket: wardrobeBucketName,
         Key: s3ImageKey,
     };
-    
+
     deleteImageCommand = new DeleteObjectCommand(deleteImageParams);
     await s3.send(deleteImageCommand);
     await wardrobeQueries.removeWardrobeClothingItemByClothingId(clothingId);
