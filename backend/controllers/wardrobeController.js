@@ -15,6 +15,8 @@ const wardrobeBucketAccessKey = process.env.WARDROBE_BUCKET_ACCESS_KEY;
 const wardrobeBucketSecretAccessKey =
     process.env.WARDROBE_BUCKET_SECRET_ACCESS_KEY;
 
+const prefix = "wardrobe/";
+
 const s3 = new S3Client({
     credentials: {
         accessKeyId: wardrobeBucketAccessKey,
@@ -32,7 +34,7 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
     console.log("req.file", req.file);
 
     const newClothingImageS3ImageKey =
-        wardrobeServices.getRandomClothingS3ImageKey();
+        prefix + wardrobeServices.getRandomClothingS3ImageKey();
     const imageToS3Params = {
         Bucket: wardrobeBucketName,
         Key: newClothingImageS3ImageKey,

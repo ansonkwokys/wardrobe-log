@@ -5,13 +5,14 @@ import "./Wardrobe.css";
 
 export default function Wardrobe() {
     const [wardrobeClothingList, setWardrobeClothingList] = useState([]);
-
+    /*
     useEffect(() => {
         fetch("http://localhost:3000/wardrobe")
             .then((response) => response.json())
             .then((data) => {setWardrobeClothingList(data)})
             .catch((error) => console.error(error));
     }, []);
+    */
 
     return (
         <div className="wardrobe-container">
