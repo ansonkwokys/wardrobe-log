@@ -9,11 +9,11 @@ const wardrobeServices = require("../services/wardrobeService.js");
 const wardrobeQueries = require("../db/queries/wardrobeQueries.js");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-const wardrobeBucketName = process.env.WARDROBE_BUCKET_NAME;
-const wardrobeBucketRegion = process.env.WARDROBE_BUCKET_REGION;
-const wardrobeBucketAccessKey = process.env.WARDROBE_BUCKET_ACCESS_KEY;
-const wardrobeBucketSecretAccessKey =
-    process.env.WARDROBE_BUCKET_SECRET_ACCESS_KEY;
+const wardrobeBucketName = process.env.BUCKET_NAME;
+const wardrobeBucketRegion = process.env.BUCKET_REGION;
+const wardrobeBucketAccessKey = process.env.BUCKET_ACCESS_KEY;
+const wardrobeBucketSecretAccessKey = proecess.env.BUCKET_SECRET_ACCESS_KEY;
+    process.env.BUCKET_SECRET_ACCESS_KEY;
 
 const prefix = "wardrobe/";
 
