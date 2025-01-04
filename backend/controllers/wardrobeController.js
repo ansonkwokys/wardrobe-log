@@ -5,7 +5,7 @@ const {
     S3Client,
     DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
-const wardrobeServices = require("../services/wardrobeService.js");
+const wardrobeService = require("../services/wardrobeService.js");
 const wardrobeQueries = require("../db/queries/wardrobeQueries.js");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
@@ -13,7 +13,7 @@ const wardrobeBucketName = process.env.BUCKET_NAME;
 const wardrobeBucketRegion = process.env.BUCKET_REGION;
 const wardrobeBucketAccessKey = process.env.BUCKET_ACCESS_KEY;
 const wardrobeBucketSecretAccessKey = proecess.env.BUCKET_SECRET_ACCESS_KEY;
-    process.env.BUCKET_SECRET_ACCESS_KEY;
+process.env.BUCKET_SECRET_ACCESS_KEY;
 
 const prefix = "wardrobe/";
 
@@ -34,7 +34,7 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
     console.log("req.file", req.file);
 
     const newClothingImageS3ImageKey =
-        prefix + wardrobeServices.getRandomClothingS3ImageKey();
+        prefix + wardrobeService.getRandomClothingS3ImageKey();
     const imageToS3Params = {
         Bucket: wardrobeBucketName,
         Key: newClothingImageS3ImageKey,
@@ -45,7 +45,7 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
     await s3.send(imageToS3Command);
 
     const { description, category } = req.body;
-    req.body.categoryId = await wardrobeServices.getClothingCategory(category);
+    req.body.categoryId = await wardrobeService.getClothingCategory(category);
     req.body.s3ImageKey = newClothingImageS3ImageKey;
     console.log("req.body, 2nd", req.body);
     await wardrobeQueries.insertNewWardrobeClothingItem({
