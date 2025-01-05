@@ -15,4 +15,12 @@ const outfitBucketAccessKey = process.env.BUCKET_ACCESS_KEY;
 const outfitBucketSecretAccessKey = proecess.env.BUCKET_SECRET_ACCESS_KEY;
     process.env.BUCKET_SECRET_ACCESS_KEY;
 
-const prefix = "service/";
+const prefix = "outfit/";
+
+const s3 = new S3Client({
+    credentials: {
+        accessKeyId: wardrobeBucketAccessKey,
+        secretAccessKey: wardrobeBucketSecretAccessKey,
+    },
+    region: wardrobeBucketRegion,
+});
