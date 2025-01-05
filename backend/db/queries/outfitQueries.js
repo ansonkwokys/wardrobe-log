@@ -3,10 +3,11 @@ const OUTFIT_TABLE = "outfit";
 const OUTFIT_CLOTHING_ITEM_TABLE = "outfit_clothing_item";
 
 exports.insertNewOutfit = async ({ userId, s3ImageKey }) => {
-    await pool.query(
+    const result = await pool.query(
         `INSERT INTO ${OUTFIT_TABLE} (user_id, s3_image_key) VALUES ($1, $2)`,
         [userId, s3ImageKey]
     );
+    return result.rows[0].outfit_id
 };
 
 exports.insertWardrobeClothingItemToOutfit = async ({
