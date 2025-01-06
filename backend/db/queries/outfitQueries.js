@@ -2,6 +2,7 @@ const pool = require("../pool");
 const OUTFIT_TABLE = "outfit";
 const OUTFIT_CLOTHING_ITEM_TABLE = "outfit_clothing_item";
 
+// return new insert outfit id
 exports.insertNewOutfit = async ({ userId, s3ImageKey }) => {
     const result = await pool.query(
         `INSERT INTO ${OUTFIT_TABLE} (user_id, s3_image_key) VALUES ($1, $2)`,
