@@ -17,8 +17,10 @@ export default function Wardrobe() {
     return (
         <div className="wardrobe-container">
             <div className="wardrobe-header-container">
-                <h1>Wardrobe</h1>
-                <button>Add Clothing</button>
+                <div className="wardrobe-title">Wardrobe |</div>
+                <a className="add-item-title" href="#">
+                    add new clothes
+                </a>
             </div>
             <div className="wardrobe-card-container">
                 {wardrobeClothingList.map((item) => (
@@ -30,6 +32,35 @@ export default function Wardrobe() {
                         />
                     </div>
                 ))}
+                <WardrobeClothingCard
+                    description="Black Cotton T-Shirt"
+                    status="Clean"
+                    imageUrl="/images/tshirt.jpg"
+                />
+
+                <WardrobeClothingCard
+                    description="Blue Denim Jeans"
+                    status="Dirty"
+                    imageUrl="/images/jeans.jpg"
+                />
+
+                <WardrobeClothingCard
+                    description="White Hoodie"
+                    status="Clean"
+                    imageUrl="/images/hoodie.jpg"
+                />
+
+                <WardrobeClothingCard
+                    description="Red Sweater"
+                    status="Clean"
+                    imageUrl="/images/sweater.jpg"
+                />
+
+                <WardrobeClothingCard
+                    description="Gray Sweatpants"
+                    status="Dirty"
+                    imageUrl="/images/sweatpants.jpg"
+                />
             </div>
         </div>
     );
