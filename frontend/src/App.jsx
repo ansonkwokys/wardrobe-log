@@ -2,6 +2,7 @@ import NavBar from "./components/NavBar.jsx";
 import Wardrobe from "./components/Wardrobe.jsx";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Login from "./components/Login.jsx";
+import Outfit from "./components/Outfit.jsx";
 import "./App.css";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/wardrobe" element={<Wardrobe />} />
+                <Route path="/outfit" element={<Outfit />} />
             </Routes>
         </BrowserRouter>
     );
@@ -18,7 +20,10 @@ function App() {
 
 function NavBarOrNot() {
     const location = useLocation();
-    return (location.pathname == "/wardrobe") && <NavBar className="nav-bar"/>;
+    return (
+        (location.pathname == "/wardrobe" ||
+            location.pathname == "/outfit") && <NavBar className="nav-bar" />
+    );
 }
 
 export default App;
