@@ -5,15 +5,17 @@ const {
     S3Client,
     DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
-const wardrobeServices = require("../services/wardrobeService.js");
+const wardrobeService = require("../services/wardrobeService.js");
 const wardrobeQueries = require("../db/queries/wardrobeQueries.js");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-const wardrobeBucketName = process.env.WARDROBE_BUCKET_NAME;
-const wardrobeBucketRegion = process.env.WARDROBE_BUCKET_REGION;
-const wardrobeBucketAccessKey = process.env.WARDROBE_BUCKET_ACCESS_KEY;
-const wardrobeBucketSecretAccessKey =
-    process.env.WARDROBE_BUCKET_SECRET_ACCESS_KEY;
+const wardrobeBucketName = process.env.BUCKET_NAME;
+const wardrobeBucketRegion = process.env.BUCKET_REGION;
+const wardrobeBucketAccessKey = process.env.BUCKET_ACCESS_KEY;
+const wardrobeBucketSecretAccessKey = proecess.env.BUCKET_SECRET_ACCESS_KEY;
+process.env.BUCKET_SECRET_ACCESS_KEY;
+
+const prefix = "wardrobe/";
 
 const s3 = new S3Client({
     credentials: {
@@ -32,7 +34,7 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
     console.log("req.file", req.file);
 
     const newClothingImageS3ImageKey =
-        wardrobeServices.getRandomClothingS3ImageKey();
+        prefix + wardrobeService.getRandomClothingS3ImageKey();
     const imageToS3Params = {
         Bucket: wardrobeBucketName,
         Key: newClothingImageS3ImageKey,
@@ -42,14 +44,12 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
     const imageToS3Command = new PutObjectCommand(imageToS3Params);
     await s3.send(imageToS3Command);
 
-    //add user id - temporary - change after adding verification
     const { description, category } = req.body;
-    req.body.userId = "1";
-    req.body.categoryId = await wardrobeServices.getClothingCategory(category);
+    req.body.categoryId = await wardrobeService.getClothingCategory(category);
     req.body.s3ImageKey = newClothingImageS3ImageKey;
     console.log("req.body, 2nd", req.body);
     await wardrobeQueries.insertNewWardrobeClothingItem({
-        userId: req.body.userId,
+        userId: req.session.passport.user,
         clothingDescription: description,
         clothingCategoryId: req.body.categoryId,
         s3ImageKey: req.body.s3ImageKey,
@@ -59,12 +59,12 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
 };
 
 exports.getAllWardrobeClothingItems = async (req, res) => {
-    //add user id - temporary - chagne after adding verification
     req.body.userId = "1";
-    console.log("req.body", req.body);
+    console.log("req.session", req.session);
+    console.log("req.session.id", req.session.id);
 
     wardrobeClothingItems = await wardrobeQueries.fetchAllWardrobeClothingItems(
-        req.body.userId
+        req.session.passport.user
     );
 
     for (const item of wardrobeClothingItems) {
@@ -113,7 +113,7 @@ exports.deleteWardrobeClothingItem = async (req, res) => {
         Bucket: wardrobeBucketName,
         Key: s3ImageKey,
     };
-    
+
     deleteImageCommand = new DeleteObjectCommand(deleteImageParams);
     await s3.send(deleteImageCommand);
     await wardrobeQueries.removeWardrobeClothingItemByClothingId(clothingId);

@@ -1,15 +1,28 @@
 import NavBar from "./components/NavBar.jsx";
 import Wardrobe from "./components/Wardrobe.jsx";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import Login from "./components/Login.jsx";
+import Outfit from "./components/Outfit.jsx";
 import "./App.css";
+
 function App() {
     return (
         <BrowserRouter className="app-container">
-            <NavBar className="nav-bar"/>
+            <NavBarOrNot />
             <Routes>
+                <Route path="/login" element={<Login />} />
                 <Route path="/wardrobe" element={<Wardrobe />} />
+                <Route path="/outfit" element={<Outfit />} />
             </Routes>
         </BrowserRouter>
+    );
+}
+
+function NavBarOrNot() {
+    const location = useLocation();
+    return (
+        (location.pathname == "/wardrobe" ||
+            location.pathname == "/outfit") && <NavBar className="nav-bar" />
     );
 }
 
