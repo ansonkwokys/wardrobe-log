@@ -1,0 +1,61 @@
+.outfit-container * {
+    border: 1px solid red;
+}
+
+.outfit-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%
+}
+
+.outfit-title {
+    font-size: min(1.6rem, 2.4vw)
+}
+
+.daily-title {
+    font-size: min(1rem, 1.5vw)
+}
+
+.outfit-header-container {
+    display: flex;
+    height: max(5vh, min(4.5vw, min(10vw, 3rem)));
+    width: 100%;
+    align-items: center;
+    justify-content: left;
+    padding: 0 clamp(0rem, 3%, 5rem);
+}
+
+.outfit-display-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.outfit-display-date {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: min(1.6rem, 2.4vw);
+    height: max(5vh, min(4.5vw, min(10vw, 3rem)));
+    justify-content: center;
+}
+
+.outfit-display-image {
+    width: 500px;
+    max-width: 90%;
+    height: 75%;
+}
+
+.outfit-display-button {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: max(5vh, min(4.5vw, min(10vw, 3rem)));
+    width: 100%;
+    padding: 0 clamp(0rem, 3%, 5rem);
+}

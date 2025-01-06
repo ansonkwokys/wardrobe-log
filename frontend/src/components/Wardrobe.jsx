@@ -38,6 +38,8 @@ export default function Wardrobe() {
                     imageUrl="/images/tshirt.jpg"
                 />
 
+                {/*
+ 
                 <WardrobeClothingCard
                     description="Blue Denim Jeans"
                     status="Dirty"
@@ -61,6 +63,9 @@ export default function Wardrobe() {
                     status="Dirty"
                     imageUrl="/images/sweatpants.jpg"
                 />
+
+                */}
+
             </div>
         </div>
     );

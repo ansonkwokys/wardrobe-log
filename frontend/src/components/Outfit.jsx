@@ -19,23 +19,21 @@ export default function Outfit() {
             <div className="outfit-header-container">
                 <div className="outfit-title">Outfit |</div>
                 <a className="add-item-title" href="#">
-                    add daily
+                    add daily outfit
                 </a>
             </div>
-            <div className="outfit-card-container">
-                <OutfitDisplayCard
-                    date={outfitDisplay.date}
-                    imageUrl={outfitDisplay.imageUrl}
-                />
-            </div>
+            <OutfitDisplayCard
+                date="May 1, 2023"
+                imageUrl="https://i8.amplience.net/i/naras/Adele-Vegas-2022-GettyImages-1442693496.jpg"
+            />
         </div>
     );
 }
 
 function OutfitDisplayCard({ date, imageUrl }) {
     return (
-        <div className="outfit-display-card">
-            <div className="outfit-display-date">{date}</div>
+        <div className="outfit-display-container">
+            <div className="outfit-display-date">May 1, 2023</div>
             <img className="outfit-display-image" src={imageUrl} alt="outfit" />
             <div className="outfit-display-button">
                 <button>Previous</button>
