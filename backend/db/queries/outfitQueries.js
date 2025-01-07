@@ -21,3 +21,13 @@ exports.insertWardrobeClothingItemToOutfit = async ({
         [outfitId, clothingId, categoryId]
     );
 };
+
+exports.fetchTwoOutfitByClickCount = async ({
+    clickCount, userId
+}) => {
+    const result = await pool.query(
+        `SELECT * FROM outfit WHERE user_id=$1 ORDER BY created_at DESC OFFSET $2 LIMIT 2`,
+        [userId, clickCount]
+    );
+    return result;
+}
