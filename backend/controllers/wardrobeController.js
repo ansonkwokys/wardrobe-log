@@ -12,7 +12,7 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const wardrobeBucketName = process.env.BUCKET_NAME;
 const wardrobeBucketRegion = process.env.BUCKET_REGION;
 const wardrobeBucketAccessKey = process.env.BUCKET_ACCESS_KEY;
-const wardrobeBucketSecretAccessKey = proecess.env.BUCKET_SECRET_ACCESS_KEY;
+const wardrobeBucketSecretAccessKey = process.env.BUCKET_SECRET_ACCESS_KEY;
 process.env.BUCKET_SECRET_ACCESS_KEY;
 
 const prefix = "wardrobe/";
@@ -113,6 +113,7 @@ exports.deleteWardrobeClothingItem = async (req, res) => {
         Bucket: wardrobeBucketName,
         Key: s3ImageKey,
     };
+    
 
     deleteImageCommand = new DeleteObjectCommand(deleteImageParams);
     await s3.send(deleteImageCommand);
