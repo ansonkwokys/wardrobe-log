@@ -7,18 +7,13 @@ const outfitRouter = Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const {} = require("../controllers/outfitController.js");
+const { getOutfitByClickCount } = require("../controllers/outfitController.js");
 
+outfitRouter.get("/", getOutfitByClickCount);
 /*
-outfitRouter.get("/", getAllOutfitClothingItems);
-
 outfitRouter.get("/new", getNewWardrobeClothingItemForm);
 */
-outfitRouter.post(
-    "/new",
-    upload.single("newOutfitImage"),
-    postNewOutfit
-);
+outfitRouter.post("/new", upload.single("newOutfitImage"), postNewOutfit);
 /*
 outfitRouter.patch("/:id", patchWardrobeClothingItem);
 

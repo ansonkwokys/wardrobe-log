@@ -73,6 +73,37 @@ exports.postNewOutfit = async (req, res) => {
         clothingId: outerwearId,
         categoryId: outerwearCategoryId,
     });
-    
-    res.send({});
+
+    res.json({});
+};
+
+exports.getOutfitByClickCount = async (req, res) => {
+    console.log("req.body", req.body);
+    console.log("req.query", req.query);
+
+    //click count (previous + 1, next - 1, minimum = 0) from react state
+    // get two outfit record from database
+    twoOutfit = await outfitQueries.fetchTwoOutfitByClickCount({
+        clickCount: req.query.clickCount,
+        userId: req.session.passport.user,
+    });
+    if (twoOutfit.rowCount === 0) {
+        res.json({ status: "0" });
+    }
+    //get from s3
+    const outfit = twoOutfit[0];
+    const s3ImageKey = outfit.s3_image_key;
+    const getOutfitParams = {
+        Bucket: outfitBucketName,
+        Key: s3ImageKey,
+    };
+    const command = new GetObjectCommand(getOutfitParams);
+    const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    outfit.imageUrl = url;
+
+    if (twoOutfit.rowCount === 1) {
+        res.json({ status: "1", outfit: outfit });
+    } else {
+        res.json({ status: "2", outfit: outfit });
+    }
 };
