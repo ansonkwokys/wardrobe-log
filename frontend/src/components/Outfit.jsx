@@ -35,10 +35,7 @@ function OutfitDisplayCard({ date, imageUrl }) {
         <div className="outfit-display-container">
             <div className="outfit-display-date">May 1, 2023</div>
             <img className="outfit-display-image" src={imageUrl} alt="outfit" />
-            <div className="outfit-display-button">
-                <button>Previous</button>
-                <button>Next</button>
-            </div>
+            <OutfitDisplayButtons />
         </div>
     );
 }
@@ -47,3 +44,45 @@ OutfitDisplayCard.propTypes = {
     date: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
 };
+
+export function OutfitDisplayButtons() {
+    let newBackClickDifference = 0;
+    const [backClickDifference, setBackClickDifference] = useState(
+        newBackClickDifference
+    );
+
+    function handlePrevClick() {
+        newBackClickDifference = backClickDifference + 1;
+        setBackClickDifference(newBackClickDifference);
+        //console.log("in rendering new: " + newBackClickDifference);
+        //console.log("in rendering original: " + backClickDifference);
+        //need to do sth else when is told that is the last item
+    }
+
+    function handleNextClick() {
+        //the button should not appear if the backClickDifference is 0
+        newBackClickDifference = backClickDifference - 1;
+        setBackClickDifference(newBackClickDifference);
+        //console.log("in rendering new: " + newBackClickDifference);
+        //console.log("in rendering original: " + backClickDifference);
+    }
+
+    //console.log("before if - newbackClickDifference " + newBackClickDifference);
+    //console.log("before if - backClickDifference: " + backClickDifference);
+
+    if (backClickDifference === 0) {
+        return (
+            <div className="outfit-display-button">
+                <button onClick={handlePrevClick}>Previous</button>
+                {console.log("After rendering: " + backClickDifference)}
+            </div>
+        );
+    }
+    return (
+        <div className="outfit-display-button">
+            <button onClick={handlePrevClick}>Previous</button>
+            {console.log("After rendering: " + backClickDifference)}
+            <button onClick={handleNextClick}>Next</button>
+        </div>
+    );
+}
