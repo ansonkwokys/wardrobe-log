@@ -5,15 +5,6 @@ import "./Outfit.css";
 
 export default function Outfit() {
 
-    /*
-    useEffect(() => {
-        fetch("http://localhost:3000/outfit")
-            .then((response) => response.json())
-            .then((data) => {setOutfitClothingList(data)})
-            .catch((error) => console.error(error));
-    }, []);
-    */
-
     return (
         <div className="outfit-container">
             <div className="outfit-header-container">
@@ -29,7 +20,38 @@ export default function Outfit() {
 
 function OutfitDisplayCard() {
     const [prevNextDiff, setPrevNextDiff] = useState(0);
+    const [isPrevButtonShown, setIsPrevButtonShown] = useState(true);
+    const [isNextButtonShown, setIsNextButtonShown] = useState(false);
 
+    //control the 'previous' button
+    useEffect(() => {
+        async function fetchData() {
+            console.log("check env: " + import.meta.env.BACKEND_URL);
+            const response = await fetch(
+                `${
+                    import.meta.env.BACKEND_URL
+                }/outfit?clickCount=${prevNextDiff}`
+            );
+            if (response.status === 0) {
+                //no item in db
+                setIsPrevButtonShown(false);
+            } else if (response.status === 1) {
+                //oldest item in db
+                setIsPrevButtonShown(true);
+            } else {
+                setIsPrevButtonShown(true);
+            }
+        }
+
+        try {
+            fetchData();
+        } catch (error) {
+            console.error("Error fetching data: ", error)
+        }
+        
+    }, [prevNextDiff]);
+
+    //control the 'next' button
     function increasePrevNextDiff() {
         let newPrevNextDiff = prevNextDiff + 1;
         setPrevNextDiff(newPrevNextDiff);
@@ -38,6 +60,9 @@ function OutfitDisplayCard() {
     function decreasePrevNextDiff() {
         let newPrevNextDiff = prevNextDiff - 1;
         setPrevNextDiff(newPrevNextDiff);
+        if (newPrevNextDiff === 0) {
+            setIsNextButtonShown(false);
+        }
     }
 
     return (
@@ -49,8 +74,14 @@ function OutfitDisplayCard() {
                 alt="outfit"
             />
             <div className="outfit-display-button">
-                <PrevButton isPrevButtonShown={true} onClick={decreasePrevNextDiff}/>
-                <NextButton isNextButtonShow={true} onClick={increasePrevNextDiff}/>
+                <PrevButton
+                    isPrevButtonShown={isPrevButtonShown}
+                    onClick={decreasePrevNextDiff}
+                />
+                <NextButton
+                    isNextButtonShown={isNextButtonShown}
+                    onClick={increasePrevNextDiff}
+                />
             </div>
         </div>
     );
@@ -84,29 +115,3 @@ NextButton.propTypes = {
     isNextButtonShown: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
 };
-
-/*
-export function OutfitDisplayButtons({
-    isPrevButtonShown,
-    isNextButttonShown,
-}) {
-    //console.log("before if - newbackClickDifference " + newBackClickDifference);
-    //console.log("before if - backClickDifference: " + backClickDifference);
-
-    if (backClickDifference === 0) {
-        return (
-            <div className="outfit-display-button">
-                <button onClick={handlePrevClick}>Previous</button>
-                {console.log("After rendering: " + backClickDifference)}
-            </div>
-        );
-    }
-    return (
-        <div className="outfit-display-button">
-            <button onClick={handlePrevClick}>Previous</button>
-            {console.log("After rendering: " + backClickDifference)}
-            <button onClick={handleNextClick}>Next</button>
-        </div>
-    );
-}
-*/
