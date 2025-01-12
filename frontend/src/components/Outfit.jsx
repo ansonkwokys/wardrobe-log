@@ -22,6 +22,7 @@ function OutfitDisplayCard() {
     const [prevNextDiff, setPrevNextDiff] = useState(0);
     const [isPrevButtonShown, setIsPrevButtonShown] = useState(true);
     const [isNextButtonShown, setIsNextButtonShown] = useState(false);
+    const [imageUrl, setImageUrl] = useState();
 
     //control the 'previous' button
     useEffect(() => {
@@ -35,20 +36,23 @@ function OutfitDisplayCard() {
             if (response.status === 0) {
                 //no item in db
                 setIsPrevButtonShown(false);
+                setImageUrl()
             } else if (response.status === 1) {
                 //oldest item in db
-                setIsPrevButtonShown(true);
+                setIsPrevButtonShown(false);
+                setImageUrl(response.outfit.imageUrl)
             } else {
                 setIsPrevButtonShown(true);
+                setImageUrl(response.outfit.imageUrl)
             }
         }
 
         try {
             fetchData();
         } catch (error) {
-            console.error("Error fetching data: ", error)
+            console.error("Error fetching data: ", error);
         }
-        
+
     }, [prevNextDiff]);
 
     //control the 'next' button
@@ -70,8 +74,8 @@ function OutfitDisplayCard() {
             <div className="outfit-display-date">May 1, 2023</div>
             <img
                 className="outfit-display-image"
-                src="https://i8.amplience.net/i/naras/Adele-Vegas-2022-GettyImages-1442693496.jpg"
-                alt="outfit"
+                src={imageUrl}
+                alt="if you are seeing this, prob no picture"
             />
             <div className="outfit-display-button">
                 <PrevButton
