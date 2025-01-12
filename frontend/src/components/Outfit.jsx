@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import "./Outfit.css";
 
 export default function Outfit() {
-    const [outfitDisplay, setOutfitDisplay] = useState([]);
+
     /*
     useEffect(() => {
         fetch("http://localhost:3000/outfit")
@@ -22,20 +22,36 @@ export default function Outfit() {
                     add daily outfit
                 </a>
             </div>
-            <OutfitDisplayCard
-                date="May 1, 2023"
-                imageUrl="https://i8.amplience.net/i/naras/Adele-Vegas-2022-GettyImages-1442693496.jpg"
-            />
+            <OutfitDisplayCard />
         </div>
     );
 }
 
-function OutfitDisplayCard({ date, imageUrl }) {
+function OutfitDisplayCard() {
+    const [prevNextDiff, setPrevNextDiff] = useState(0);
+
+    function increasePrevNextDiff() {
+        let newPrevNextDiff = prevNextDiff + 1;
+        setPrevNextDiff(newPrevNextDiff);
+    }
+
+    function decreasePrevNextDiff() {
+        let newPrevNextDiff = prevNextDiff - 1;
+        setPrevNextDiff(newPrevNextDiff);
+    }
+
     return (
         <div className="outfit-display-container">
             <div className="outfit-display-date">May 1, 2023</div>
-            <img className="outfit-display-image" src={imageUrl} alt="outfit" />
-            <OutfitDisplayButtons />
+            <img
+                className="outfit-display-image"
+                src="https://i8.amplience.net/i/naras/Adele-Vegas-2022-GettyImages-1442693496.jpg"
+                alt="outfit"
+            />
+            <div className="outfit-display-button">
+                <PrevButton isPrevButtonShown={true} onClick={decreasePrevNextDiff}/>
+                <NextButton isNextButtonShow={true} onClick={increasePrevNextDiff}/>
+            </div>
         </div>
     );
 }
@@ -45,28 +61,35 @@ OutfitDisplayCard.propTypes = {
     imageUrl: PropTypes.string.isRequired,
 };
 
-export function OutfitDisplayButtons() {
-    let newBackClickDifference = 0;
-    const [backClickDifference, setBackClickDifference] = useState(
-        newBackClickDifference
-    );
-
-    function handlePrevClick() {
-        newBackClickDifference = backClickDifference + 1;
-        setBackClickDifference(newBackClickDifference);
-        //console.log("in rendering new: " + newBackClickDifference);
-        //console.log("in rendering original: " + backClickDifference);
-        //need to do sth else when is told that is the last item
+function PrevButton({ isPrevButtonShown, onClick }) {
+    if (isPrevButtonShown) {
+        return <button onClick={onClick}>Previous</button>;
     }
+    return null;
+}
 
-    function handleNextClick() {
-        //the button should not appear if the backClickDifference is 0
-        newBackClickDifference = backClickDifference - 1;
-        setBackClickDifference(newBackClickDifference);
-        //console.log("in rendering new: " + newBackClickDifference);
-        //console.log("in rendering original: " + backClickDifference);
+PrevButton.propTypes = {
+    isPrevButtonShown: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired,
+};
+
+function NextButton({ isNextButtonShown, onClick }) {
+    if (isNextButtonShown) {
+        return <button onClick={onClick}>Next</button>;
     }
+    return null;
+}
 
+NextButton.propTypes = {
+    isNextButtonShown: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired,
+};
+
+/*
+export function OutfitDisplayButtons({
+    isPrevButtonShown,
+    isNextButttonShown,
+}) {
     //console.log("before if - newbackClickDifference " + newBackClickDifference);
     //console.log("before if - backClickDifference: " + backClickDifference);
 
@@ -86,3 +109,4 @@ export function OutfitDisplayButtons() {
         </div>
     );
 }
+*/
