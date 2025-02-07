@@ -1,5 +1,5 @@
-import React from "react";
-import { useEffect, useState } from "react";
+//import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import "./Wardrobe.css";
 
@@ -88,6 +88,48 @@ export default function Wardrobe() {
 }
 
 function WardrobeClothingCard({ description, status, imageUrl }) {
+
+    function WardrobeClothingCardDescription({description, status}) {
+        const [latestDescription, saveLatestDescription] = useState(description);
+        const [isInEditMode, setInEditMode] = useState(true);
+
+        function editClothingItem(){
+            setInEditMode(true);
+            saveLatestDescription(description);
+        }
+
+        function cancelEditClothingItem(){
+            setInEditMode(false);
+        }
+
+        if (isInEditMode){
+            return (
+            <form action="add action later" className="w-full; h-[30%] rounded-b-2xl border-b-2 border-l-2 border-r-2 border-gray-200 flex flex-col p-2">
+                <input type="text" defaultValue={latestDescription} className="grow-[2.5] basis-0 w-full text-center text-[1.1rem] rounded-sm  border-2 border-blue-600"/>
+                <div className="grow-[0.5] basis-0 w-full text-center text-xs">{status}</div>
+                <div className="grow-[2] basis-0 w-full flex justify-around align-center text-[0.8rem]">
+                    <button type="submit" className="grow-1 basis-0 hover:underline hover:underline-offset-2">Done</button>
+                    <button className="grow-1 basis-0 hover:underline hover:underline-offset-2" onClick={cancelEditClothingItem}>Cancel</button>
+                </div>
+            </form>
+            )
+        }
+        else {
+            return (
+            <div className="w-full; h-[30%] rounded-b-2xl border-b-2 border-l-2 border-r-2 border-gray-200 flex flex-col p-2">
+                <div className="grow-[2.5] basis-0 w-full text-center text-[1.1rem]">{description}</div>
+                <div className="grow-[0.5] basis-0 w-full text-center text-xs">{status}</div>
+                <div className="grow-[2] basis-0 w-full flex justify-around align-center text-[0.8rem]">
+                    <button className="grow-1 basis-0 hover:underline hover:underline-offset-2">Laundry</button>
+                    <button className="grow-1 basis-0 hover:underline hover:underline-offset-2" onClick={editClothingItem}>Edit</button>
+                    <button className="grow-1 basis-0 hover:underline hover:underline-offset-2">Delete</button>
+                </div>
+            </div>
+            )
+        }
+    }
+
+    
     return (
         <div className="flex flex-col rounded-2xl w-48 h-72 hover:shadow-lg">
             <img
@@ -95,17 +137,30 @@ function WardrobeClothingCard({ description, status, imageUrl }) {
                 src={imageUrl}
                 alt="placeholder"
             />
-            <div className="w-full; h-[30%] rounded-b-2xl border-b-2 border-l-2 border-r-2 border-gray-200 flex flex-col p-2">
-                <div className="grow-[2.5] basis-0 w-full text-center text-[1.1rem]">{description}</div>
-                <div className="grow-[0.5] basis-0 w-full text-center text-xs">{status}</div>
-                <div className="grow-[2] basis-0 w-full flex justify-around align-center text-[0.8rem]">
-                    <button className="hover:underline hover:underline-offset-2">Edit</button>
-                    <button className="hover:underline hover:underline-offset-2">Delete</button>
-                </div>
-            </div>
+            <WardrobeClothingCardDescription description={description} status={status}/>
         </div>
     );
 }
+
+/*
+function WardrobeClothingCardDescription({isInEditMode, description}){
+    if (idInEditMode){
+        return (
+            
+        )
+    }
+    else {
+        return (
+            <div className="grow-[2.5] basis-0 w-full text-center text-[1.1rem]">{description}</div>
+        )
+    }
+}
+
+WardrobeClothingCardDescription.propTypes ={
+    isInEditMode: PropTypes.bool.isRequired,
+    description: PropTypes.string.isRequired,
+}
+*/
 
 WardrobeClothingCard.propTypes = {
     description: PropTypes.string.isRequired,
