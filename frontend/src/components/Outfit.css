@@ -1,3 +1,4 @@
+/*
 .outfit-container * {
     border: 1px solid red;
 }
@@ -58,4 +59,4 @@
     height: max(5vh, min(4.5vw, min(10vw, 3rem)));
     width: 100%;
     padding: 0 clamp(0rem, 3%, 5rem);
-}
+}*/

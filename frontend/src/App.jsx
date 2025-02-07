@@ -7,13 +7,12 @@ import "./App.css";
 
 function App() {
     return (
-        <BrowserRouter className="app-container">
+        <BrowserRouter className="flex flex-col h-screen w-screen justify-center items-center">
             <NavBarOrNot />
             <Routes>
                 <Route path="/outfit" element={<Outfit />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/wardrobe" element={<Wardrobe />} />
-                
             </Routes>
         </BrowserRouter>
     );

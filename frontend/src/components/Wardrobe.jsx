@@ -15,14 +15,17 @@ export default function Wardrobe() {
     */
 
     return (
-        <div className="wardrobe-container">
-            <div className="wardrobe-header-container">
-                <div className="wardrobe-title">Wardrobe |</div>
-                <a className="add-item-title" href="#">
+        <div className="flex flex-col h-full w-full">
+            <div className="flex justify-between items-center p-4 h-10 w-full text-black border-b-1 border-gray-300">
+                <div className="wardrobe-title">Wardrobe</div>
+                <a
+                    className="hover:underline hover:underline-offset-4"
+                    href="#"
+                >
                     add new clothes
                 </a>
             </div>
-            <div className="wardrobe-card-container">
+            <div className="flex h-full w-full flex-wrap justify-around items-start p-4 gap-x-10 gap-y-7">
                 {wardrobeClothingList.map((item) => (
                     <div key={item.clothing_id}>
                         <WardrobeClothingCard
@@ -35,16 +38,30 @@ export default function Wardrobe() {
                 <WardrobeClothingCard
                     description="Black Cotton T-Shirt"
                     status="Clean"
-                    imageUrl="/images/tshirt.jpg"
+                    imageUrl="https://ca-times.brightspotcdn.com/dims4/default/56ca74f/2147483647/strip/true/crop/2100x3000+0+0/resize/1200x1714!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fd7%2Fec%2F9c6103094901b6351f07c96550c9%2Fla-ca-adele-one-night-only-196.JPG"
                 />
 
-                {/*
- 
                 <WardrobeClothingCard
                     description="Blue Denim Jeans"
                     status="Dirty"
                     imageUrl="/images/jeans.jpg"
                 />
+
+                <WardrobeClothingCard
+                    description="Blue Denim Jeans"
+                    status="Dirty"
+                    imageUrl="/images/jeans.jpg"
+                />
+
+                <WardrobeClothingCard
+                    description="Blue Denim Jeans"
+                    status="Dirty"
+                    imageUrl="/images/jeans.jpg"
+                />
+
+                {/*
+ 
+               
 
                 <WardrobeClothingCard
                     description="White Hoodie"
@@ -65,7 +82,6 @@ export default function Wardrobe() {
                 />
 
                 */}
-
             </div>
         </div>
     );
@@ -73,14 +89,18 @@ export default function Wardrobe() {
 
 function WardrobeClothingCard({ description, status, imageUrl }) {
     return (
-        <div className="wardrobe-card">
-            <img className="card-image" src={imageUrl} alt="placeholder" />
-            <div className="card-text-container">
-                <div className="card-description">{description}</div>
-                <div className="card-status">in {status}</div>
-                <div className="card-button-container">
-                    <button>Edit</button>
-                    <button>Delete</button>
+        <div className="flex flex-col rounded-2xl w-48 h-72 hover:shadow-lg">
+            <img
+                className="w-full h-[70%] border-2 border-gray-200 object-cover rounded-t-2xl"
+                src={imageUrl}
+                alt="placeholder"
+            />
+            <div className="w-full; h-[30%] rounded-b-2xl border-b-2 border-l-2 border-r-2 border-gray-200 flex flex-col p-2">
+                <div className="grow-[2.5] basis-0 w-full text-center text-[1.1rem]">{description}</div>
+                <div className="grow-[0.5] basis-0 w-full text-center text-xs">{status}</div>
+                <div className="grow-[2] basis-0 w-full flex justify-around align-center text-[0.8rem]">
+                    <button className="hover:underline hover:underline-offset-2">Edit</button>
+                    <button className="hover:underline hover:underline-offset-2">Delete</button>
                 </div>
             </div>
         </div>
