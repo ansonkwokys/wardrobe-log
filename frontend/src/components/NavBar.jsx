@@ -13,9 +13,6 @@ const NavBar = () => {
                 <li>
                     <a href="/outfit">OUTFIT</a>
                 </li>
-                <li>
-                    <a href="#">THREAD</a>
-                </li>
             </ul>
             <ul className="flex grow-1 basis-0 items-center justify-around">
                 <li>
