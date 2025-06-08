@@ -6,12 +6,9 @@ import "./Outfit.css";
 export default function Outfit() {
 
     return (
-        <div className="outfit-container">
+        <div className="flex flex-col h-full w-full">
             <div className="outfit-header-container">
-                <div className="outfit-title">Outfit |</div>
-                <a className="add-item-title" href="#">
-                    add daily outfit
-                </a>
+                <div className="flex justify-between items-center p-4 h-10 w-full text-black border-b-1 border-gray-300">Outfit | Add daily outfit</div>
             </div>
             <OutfitDisplayCard />
         </div>
@@ -70,14 +67,14 @@ function OutfitDisplayCard() {
     }
 
     return (
-        <div className="outfit-display-container">
-            <div className="outfit-display-date">May 1, 2023</div>
+        <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-row items-center p-6 text-3xl">May 1, 2023</div>
             <img
                 className="outfit-display-image"
                 src={imageUrl}
                 alt="if you are seeing this, prob no picture"
             />
-            <div className="outfit-display-button">
+            <div className="flex items-center w-full h-10 p-16">
                 <PrevButton
                     isPrevButtonShown={isPrevButtonShown}
                     onClick={decreasePrevNextDiff}
