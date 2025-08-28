@@ -88,48 +88,97 @@ export default function Wardrobe() {
 }
 
 function WardrobeClothingCard({ description, status, imageUrl }) {
-
-    function WardrobeClothingCardDescription({description, status}) {
-        const [latestDescription, saveLatestDescription] = useState(description);
+    function WardrobeClothingCardDescription({ description, status }) {
+        const [latestDescription, saveLatestDescription] =
+            useState(description);
         const [isInEditMode, setInEditMode] = useState(true);
 
-        function editClothingItem(){
+        function editClothingItem() {
             setInEditMode(true);
-            saveLatestDescription(description);
+            saveLatestDescription(latestDescription);
         }
 
-        function cancelEditClothingItem(){
+        function cancelEditClothingItem(e) {
+            e.preventDefault();
             setInEditMode(false);
         }
 
-        if (isInEditMode){
-            return (
-            <form action="add action later" className="w-full; h-[30%] rounded-b-2xl border-b-2 border-l-2 border-r-2 border-gray-200 flex flex-col p-2">
-                <input type="text" defaultValue={latestDescription} className="grow-[2.5] basis-0 w-full text-center text-[1.1rem] rounded-sm  border-2 border-blue-600"/>
-                <div className="grow-[0.5] basis-0 w-full text-center text-xs">{status}</div>
-                <div className="grow-[2] basis-0 w-full flex justify-around align-center text-[0.8rem]">
-                    <button type="submit" className="grow-1 basis-0 hover:underline hover:underline-offset-2">Done</button>
-                    <button className="grow-1 basis-0 hover:underline hover:underline-offset-2" onClick={cancelEditClothingItem}>Cancel</button>
-                </div>
-            </form>
-            )
+        function submitClothingItemEdit(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const formJson = Object.fromEntries(formData.entries());
+            console.log(formJson);
+
+            saveLatestDescription(formJson.description);
+
+            //add some fetching logic here
+
+            setInEditMode(false);
         }
-        else {
+
+        if (isInEditMode) {
             return (
-            <div className="w-full; h-[30%] rounded-b-2xl border-b-2 border-l-2 border-r-2 border-gray-200 flex flex-col p-2">
-                <div className="grow-[2.5] basis-0 w-full text-center text-[1.1rem]">{description}</div>
-                <div className="grow-[0.5] basis-0 w-full text-center text-xs">{status}</div>
-                <div className="grow-[2] basis-0 w-full flex justify-around align-center text-[0.8rem]">
-                    <button className="grow-1 basis-0 hover:underline hover:underline-offset-2">Laundry</button>
-                    <button className="grow-1 basis-0 hover:underline hover:underline-offset-2" onClick={editClothingItem}>Edit</button>
-                    <button className="grow-1 basis-0 hover:underline hover:underline-offset-2">Delete</button>
+                <form
+                    method="post"
+                    onSubmit={submitClothingItemEdit}
+                    onReset={cancelEditClothingItem}
+                    className="w-full; h-[30%] rounded-b-2xl border-b-2 border-l-2 border-r-2 border-gray-200 flex flex-col p-2"
+                >
+                    <input
+                        type="text"
+                        name="description"
+                        defaultValue={latestDescription}
+                        className="grow-[2.5] basis-0 w-full text-center text-[1.1rem] rounded-sm  border-2 border-blue-600"
+                    />
+                    <div className="grow-[0.5] basis-0 w-full text-center text-xs">
+                        {status}
+                    </div>
+                    <div className="grow-[2] basis-0 w-full flex justify-around align-center text-[0.8rem]">
+                        <button
+                            type="submit"
+                            className="grow-1 basis-0 hover:underline hover:underline-offset-2"
+                        >
+                            Done
+                        </button>
+                        <button
+                            type="reset"
+                            className="grow-1 basis-0 hover:underline hover:underline-offset-2"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            );
+        } else {
+            return (
+                <div className="w-full; h-[30%] rounded-b-2xl border-b-2 border-l-2 border-r-2 border-gray-200 flex flex-col p-2">
+                    <div className="grow-[2.5] basis-0 w-full text-center text-[1.1rem]">
+                        {latestDescription}
+                    </div>
+                    <div className="grow-[0.5] basis-0 w-full text-center text-xs">
+                        {status}
+                    </div>
+                    <div className="grow-[2] basis-0 w-full flex justify-around align-center text-[0.8rem]">
+                        <button className="grow-1 basis-0 hover:underline hover:underline-offset-2">
+                            Laundry
+                        </button>
+                        <button
+                            className="grow-1 basis-0 hover:underline hover:underline-offset-2"
+                            onClick={editClothingItem}
+                        >
+                            Edit
+                        </button>
+                        <button className="grow-1 basis-0 hover:underline hover:underline-offset-2">
+                            Delete
+                        </button>
+                    </div>
                 </div>
-            </div>
-            )
+            );
         }
     }
 
-    
     return (
         <div className="flex flex-col rounded-2xl w-48 h-72 hover:shadow-lg">
             <img
@@ -137,7 +186,10 @@ function WardrobeClothingCard({ description, status, imageUrl }) {
                 src={imageUrl}
                 alt="placeholder"
             />
-            <WardrobeClothingCardDescription description={description} status={status}/>
+            <WardrobeClothingCardDescription
+                description={description}
+                status={status}
+            />
         </div>
     );
 }
