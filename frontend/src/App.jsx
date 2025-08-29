@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import NavBar from "./components/NavBar.jsx";
 import Wardrobe from "./components/Wardrobe.jsx";
 import Login from "./components/Login.jsx";
-import Outfit from "./components/Outfit.jsx";
+//import Outfit from "./components/Outfit.jsx";
 import "./App.css";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
         <BrowserRouter className="flex flex-col h-screen w-screen justify-center items-center">
             <NavBarOrNot />
             <Routes>
-                <Route path="/outfit" element={<Outfit />} />
+                {/*<Route path="/outfit" element={<Outfit />} />*/}
                 <Route path="/login" element={<Login />} />
                 <Route path="/wardrobe" element={<Wardrobe />} />
             </Routes>
@@ -21,8 +21,7 @@ function App() {
 function NavBarOrNot() {
     const location = useLocation();
     return (
-        (location.pathname === "/wardrobe" ||
-            location.pathname === "/outfit") && <NavBar className="nav-bar" />
+        location.pathname === "/wardrobe" && <NavBar className="nav-bar" />
     );
 }
 
