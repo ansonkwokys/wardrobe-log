@@ -114,23 +114,26 @@ export default function Wardrobe() {
 
         if (isAddNewClothesClicked) {
             return (
-                <form
-                    onSubmit={addNewClothes}
-                    className="rounded-2xl border-2 border-gray-300 p-5 bg-white margin w-1/3 absolute flex flex-col z-10 left-[50%] top-[50%] -translate-1/2"
-                >
-                    <label>Name:</label>
-                    <input name="name" />
-                    <label>Type:</label>
-                    <input name="type" />
-                    <div className="flex flex-row justify-around">
-                        <button type="submit" onSubmit={addNewClothes}>
-                            Add New Clothes!
-                        </button>
-                        <button type="button" onClick={cancelAddNewClothes}>
-                            Cancel
-                        </button>
-                    </div>
-                </form>
+                <div>
+                    <div className="h-full w-full absolute bg-gray-300 opacity-20"></div>
+                    <form
+                        onSubmit={addNewClothes}
+                        className="rounded-2xl border-2 border-gray-300 p-5 bg-white margin w-1/3 absolute flex flex-col z-20 left-[50%] top-[50%] -translate-1/2"
+                    >
+                        <label>Name:</label>
+                        <input name="name" />
+                        <label>Type:</label>
+                        <input name="type" />
+                        <div className="flex flex-row justify-around">
+                            <button type="submit" onSubmit={addNewClothes}>
+                                Add New Clothes!
+                            </button>
+                            <button type="button" onClick={cancelAddNewClothes}>
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
             );
         } else {
             return null;
