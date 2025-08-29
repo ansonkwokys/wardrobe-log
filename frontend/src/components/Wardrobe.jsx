@@ -5,6 +5,7 @@ import "./Wardrobe.css";
 
 export default function Wardrobe() {
     const [wardrobeClothingList, setWardrobeClothingList] = useState([]);
+    const [isAddNewClothesClicked, setIsAddNewClothesClicked] = useState(0);
     /*
     useEffect(() => {
         fetch("http://localhost:3000/wardrobe")
@@ -14,16 +15,22 @@ export default function Wardrobe() {
     }, []);
     */
 
+    function clickAddNewClothesDialog(event) {
+        event.preventDefault();
+        setIsAddNewClothesClicked(1);
+    }
+
     return (
         <div className="flex flex-col h-full w-full">
+            <AddNewClothesDialog />
             <div className="flex justify-between items-center p-4 h-10 w-full text-black border-b-1 border-gray-300">
                 <div className="wardrobe-title">Wardrobe</div>
-                <a
+                <button
                     className="hover:underline hover:underline-offset-4"
-                    href="#"
+                    onClick={clickAddNewClothesDialog}
                 >
                     add new clothes
-                </a>
+                </button>
             </div>
             <div className="flex h-full w-full flex-wrap justify-around items-start p-4 gap-x-10 gap-y-7">
                 {wardrobeClothingList.map((item) => (
@@ -85,13 +92,57 @@ export default function Wardrobe() {
             </div>
         </div>
     );
+
+    // Add New Clothes Dialog Component
+    function AddNewClothesDialog() {
+        function addNewClothes(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const formJson = Object.fromEntries(formData.entries());
+            console.log(formJson);
+
+            //const clothesType = event.target.value.type
+            //console.log(clothesName)
+
+            setIsAddNewClothesClicked(0);
+        }
+
+        function cancelAddNewClothes() {
+            setIsAddNewClothesClicked(0);
+        }
+
+        if (isAddNewClothesClicked) {
+            return (
+                <form
+                    onSubmit={addNewClothes}
+                    className="rounded-2xl border-2 border-gray-300 p-5 bg-white margin w-1/3 absolute flex flex-col z-10 left-[50%] top-[50%] -translate-1/2"
+                >
+                    <label>Name:</label>
+                    <input name="name" />
+                    <label>Type:</label>
+                    <input name="type" />
+                    <div className="flex flex-row justify-around">
+                        <button type="submit" onSubmit={addNewClothes}>
+                            Add New Clothes!
+                        </button>
+                        <button type="button" onClick={cancelAddNewClothes}>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            );
+        } else {
+            return null;
+        }
+    }
 }
 
 function WardrobeClothingCard({ description, status, imageUrl }) {
     function WardrobeClothingCardDescription({ description, status }) {
         const [latestDescription, saveLatestDescription] =
             useState(description);
-        const [isInEditMode, setInEditMode] = useState(true);
+        const [isInEditMode, setInEditMode] = useState(false);
 
         function editClothingItem() {
             setInEditMode(true);
