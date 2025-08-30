@@ -33,6 +33,7 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
     console.log("req.body", req.body);
     console.log("req.file", req.file);
 
+    // prepare key for uplaoding images to s3 bucket
     const newClothingImageS3ImageKey =
         prefix + wardrobeService.getRandomClothingS3ImageKey();
     const imageToS3Params = {
@@ -44,10 +45,16 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
     const imageToS3Command = new PutObjectCommand(imageToS3Params);
     await s3.send(imageToS3Command);
 
+    // get info from form - req.body and save it into database
+    // - s3imagekey produced from above
+    // - categoryId, description retrieved from req.body.category
+    // - userId from passport session
     const { description, category } = req.body;
     req.body.categoryId = await wardrobeService.getClothingCategory(category);
     req.body.s3ImageKey = newClothingImageS3ImageKey;
     console.log("req.body, 2nd", req.body);
+    
+    //update psql database with queries
     await wardrobeQueries.insertNewWardrobeClothingItem({
         userId: req.session.passport.user,
         clothingDescription: description,
@@ -55,13 +62,15 @@ exports.postNewWardrobeClothingItem = async (req, res) => {
         s3ImageKey: req.body.s3ImageKey,
     });
 
+    //done
     res.send({});
 };
 
 exports.getAllWardrobeClothingItems = async (req, res) => {
-    req.body.userId = "1";
+    //req.body.userId = "1";
     console.log("req.session", req.session);
     console.log("req.session.id", req.session.id);
+    console.log("req.session.passport", req.session.passport)
 
     wardrobeClothingItems = await wardrobeQueries.fetchAllWardrobeClothingItems(
         req.session.passport.user
