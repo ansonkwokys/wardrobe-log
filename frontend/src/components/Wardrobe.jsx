@@ -121,9 +121,11 @@ export default function Wardrobe() {
                         className="rounded-2xl border-2 border-gray-300 p-5 bg-white margin w-1/3 absolute flex flex-col z-20 left-[50%] top-[50%] -translate-1/2"
                     >
                         <label>Name:</label>
-                        <input name="description" />
+                        <input name="description"/>
                         <label>Category:</label>
-                        <input name="category" />
+                        <input name="category"/>
+                        <label>Image:</label>
+                        <input type="file" name="image"/>
                         <div className="flex flex-row justify-around">
                             <button type="submit" onSubmit={addNewClothes}>
                                 Add New Clothes!

@@ -21,7 +21,7 @@ wardrobeRouter.get("/new", getNewWardrobeClothingItemForm);
 
 wardrobeRouter.post(
     "/new",
-    upload.single("newClothingImage"),
+    upload.single("image"),
     postNewWardrobeClothingItem
 );
 
